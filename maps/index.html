@@ -33,11 +33,10 @@
         map.data.loadGeoJson('geo.json');
 		// Use label and description from GeoJSON Properties
 		map.data.setStyle(function(feature) {
-		var markerValue = feature.getProperty('id');
-		var markerDescription = feature.getProperty('temperature');
+		var markerLabel = feature.getProperty('temperature');
+		var markerTitle = feature.getProperty('description');
 			return {
-			label: markerValue,
-			title:markerDescription,
+			label: markerLabel
 			};
   });
       }
