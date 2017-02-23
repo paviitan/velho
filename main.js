@@ -24,13 +24,13 @@ var client  = mqtt.connect('mqtt://169.50.27.27')
 //populate list of topics
 
 var topics = []
-for(var i = 0; i < 10; i++){topics[i] = "devices/".concat(i+1)}
+for(var i = 0; i < 100; i++){topics[i] = "devices/".concat(i+1)}
 
 client.on('connect', function () {
   client.subscribe(topics)
   //client.publish('presence', 'Hello mqtt')
 })
-console.log("Subattu topikkeihin: ", topics.toString())
+console.log("Subattu " + topics.length + " topikkiin.")
 console.log("Haetaan viestejä, odota pari minuuttia...")
 
 client.on('message', function (topic, message) {
@@ -46,9 +46,9 @@ client.on('message', function (topic, message) {
 	client.end()
   if (topics.length == FeatureCollection.features.length){
 	//export to json file if all topics are gathered
-	console.log(FeatureCollection)
 	var jsonfile = JSON.stringify(FeatureCollection)
 	fs.writeFile(geofilelocation, jsonfile, 'utf8')
+	console.log('JSON filu tehty. Operaatio onnistui.')
 }
 })
 
