@@ -33,13 +33,28 @@
         map.data.loadGeoJson('geo.json');
 		// Use label and description from GeoJSON Properties
 		map.data.setStyle(function(feature) {
+		var markerValue = feature.getProperty('temperature');
 		var markerLabel = feature.getProperty('temperature');
-		var markerTitle = feature.getProperty('description');
+		var markerTitle = 'ID: ' + feature.getProperty('id') + "\r\n" + 'Coordinates: ' + feature.getProperty('coordinates');
 			return {
-			label: markerLabel
+			label: markerLabel,
+			title: markerTitle,
+			icon: getCircle(markerValue)
 			};
   });
-      }
+  }
+  
+		function getCircle(temperature) {
+			return {
+					path: google.maps.SymbolPath.CIRCLE,
+					fillColor: 'hsl('+ (175 - (temperature * 5))  + ',' + 100 + '%,' + 50 + '%)',
+					fillOpacity: 1,
+					scale: 20,
+					strokeColor: 'white',
+					strokeWeight: .5
+			};
+		}
+		
     </script>
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB-DzY496WRsUaKmy1_h6Am-s2tI-fh06g&callback=initMap">
