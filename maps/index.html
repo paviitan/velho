@@ -25,7 +25,7 @@
       var map;
       function initMap() {
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
+          zoom: 2,
           center: {lat: 0, lng: 0}
         });
 
@@ -33,15 +33,34 @@
         map.data.loadGeoJson('geo.json');
 		// Use label and description from GeoJSON Properties
 		map.data.setStyle(function(feature) {
-		var markerValue = feature.getProperty('temperature');
-		var markerLabel = String(feature.getProperty('temperature'));
-		var markerTitle = 'ID: ' + feature.getProperty('id') + "\r\n" + 'Coordinates: ' + feature.getProperty('coordinates');
+			var markerValue = feature.getProperty('temperature');
+			var markerLabel = String(feature.getProperty('temperature'));
+			var markerTitle = 'ID: ' + feature.getProperty('id') + "\r\n" + 'Coordinates: ' + feature.getGeometry().get();
 			return {
-			label: markerLabel,
-			title: markerTitle,
-			icon: getCircle(markerValue)
+				clickable: true,
+				label: markerLabel,
+				title: markerTitle,
+				icon: getCircle(markerValue)
 			};
-  });
+		});
+		
+		map.data.addListener('click', function(event){
+			//zoom to selected
+			map.panTo(event.feature.getGeometry().get());
+			map.setZoom(4);
+			/* reset previous and hilight selected
+			map.data.revertStyle();
+			map.data.overrideStyle(event.feature, {strokeWeight: 10, strokeColor: 'white'}); */
+		});
+		/*
+		map.data.addListener('mouseover', function(event){
+			map.data.revertStyle();
+			map.data.overrideStyle(event.feature, {strokeWeight: 1});
+		});
+		map.data.addListener('mouseout', function(event){
+			map.data.revertStyle();
+		});
+		*/
   }
   
 		function getCircle(temperature) {
