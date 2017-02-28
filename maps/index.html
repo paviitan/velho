@@ -48,9 +48,17 @@
 			//zoom to selected
 			map.panTo(event.feature.getGeometry().get());
 			map.setZoom(4);
-			/* reset previous and hilight selected
+			// reset previous and hilight selected
 			map.data.revertStyle();
-			map.data.overrideStyle(event.feature, {strokeWeight: 10, strokeColor: 'white'}); */
+			// editin icon, it has to be fully reconstructed manually or with function
+			//map.data.overrideStyle(even.feature, {icon: function(parameters)});
+			map.data.overrideStyle(event.feature, {icon: {
+					path: google.maps.SymbolPath.CIRCLE,
+					fillColor: 'grey',
+					fillOpacity: 1,
+					scale: 20,
+					strokeColor: 'black',
+					strokeWeight: 2}}); 
 		});
 		/*
 		map.data.addListener('mouseover', function(event){
@@ -64,7 +72,8 @@
   }
   
 		function getCircle(temperature) {
-			//example and init
+			//example and init HSL (Hue, Saturation%, Lightness%)
+			//https://www.w3schools.com/colors/colors_hsl.asp
 			var colorHSL = 'hsl(100,100%,50%)';
 			
 			if (temperature <= 0){
@@ -85,7 +94,7 @@
 					path: google.maps.SymbolPath.CIRCLE,
 					fillColor: colorHSL,
 					fillOpacity: 1,
-					scale: 20,
+					scale: 14,
 					strokeColor: 'black',
 					strokeWeight: .5
 			};
