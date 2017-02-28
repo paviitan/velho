@@ -34,7 +34,7 @@
 		// Use label and description from GeoJSON Properties
 		map.data.setStyle(function(feature) {
 		var markerValue = feature.getProperty('temperature');
-		var markerLabel = feature.getProperty('temperature');
+		var markerLabel = String(feature.getProperty('temperature'));
 		var markerTitle = 'ID: ' + feature.getProperty('id') + "\r\n" + 'Coordinates: ' + feature.getProperty('coordinates');
 			return {
 			label: markerLabel,
@@ -45,15 +45,33 @@
   }
   
 		function getCircle(temperature) {
+			//example and init
+			var colorHSL = 'hsl(100,100%,50%)';
+			
+			if (temperature <= 0){
+				colorHue = (180 - 5 * temperature);
+				colorLight = (55 - temperature);
+				//correct maxHue and lightness
+				if (colorHue > 250){colorHue = 250}
+				if (colorLight > 100){colorLight = 100}
+				colorHSL = 'hsl(' + colorHue + ',80%,' + colorLight + '%)';
+			}
+			else{
+				colorHue = (180 - 7 * temperature);
+				//correct minHue
+				if (colorHue < 0){colorHue = 0}
+				colorHSL = 'hsl(' + colorHue + ',80%,50%)';
+			}
 			return {
 					path: google.maps.SymbolPath.CIRCLE,
-					fillColor: 'hsl('+ (175 - (temperature * 5))  + ',' + 100 + '%,' + 50 + '%)',
+					fillColor: colorHSL,
 					fillOpacity: 1,
 					scale: 20,
-					strokeColor: 'white',
+					strokeColor: 'black',
 					strokeWeight: .5
 			};
 		}
+		
 		
     </script>
     <script async defer

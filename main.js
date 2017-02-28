@@ -14,8 +14,8 @@ function weaver (id, latitude, longitude, temperature) {
 	return feature = {
 	"type":"Feature",
 	"geometry":{"type":"Point", "coordinates":[longitude, latitude]},
-	"properties":{"temperature": temperature, "id":id, "coordinates":stringCoordinates},
-	"id": id}
+	"properties":{"temperature": temperature, "id":id, "coordinates":stringCoordinates}
+	}
 }
 	
 var mqtt = require('mqtt')
@@ -27,7 +27,7 @@ var client  = mqtt.connect('mqtt://169.50.27.27')
 //populate list of topics
 
 var topics = []
-for(var i = 0; i < 100; i++){topics[i] = "devices/".concat(i+1)}
+for(var i = 0; i < 200; i++){topics[i] = "devices/".concat(i+1)}
 
 client.on('connect', function () {
   client.subscribe(topics)
@@ -53,5 +53,5 @@ setTimeout(function(){
 	var jsonfile = JSON.stringify(FeatureCollection)
 	fs.writeFile(geofilelocation, jsonfile, 'utf8')
 	console.log('JSON filu tehty. Operaatio onnistui.')
-}, 300000)
+}, 150000)
 
